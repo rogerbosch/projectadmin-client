@@ -1,17 +1,22 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
+import ProjectContext from "../../context/projects/projectContext";
 
 function ListProjects({props}) {
-    //TODO cargar desde props
-    const projects = [
-        {name: 'tienda vitual'},
-        {name: 'intranet'},
-        {name: 'otra cosa'}
-    ];
+
+    const projectsContext = useContext(ProjectContext);
+    const {projects,getProjects,currentProject} = projectsContext;
+
+    useEffect(() =>{
+        getProjects();
+    },[]);
+    if(projects.length === 0 ) return null;
+
     return (
         <ul className="listado-proyectos">
             {projects.map( project => (
                 <li>
-                    <button className="btn btn-blank">
+                    <button className="btn btn-blank"
+                        onClick={()=> currentProject(project.id)}>
                         {project.name}
                     </button>
                 </li>

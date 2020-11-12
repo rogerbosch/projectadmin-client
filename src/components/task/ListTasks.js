@@ -1,8 +1,13 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useContext, useEffect} from 'react';
 import Task from "./Task";
+import ProjectContext from "../../context/projects/projectContext";
 
 function ListTasks(props) {
-    //TODO cargar desde props
+
+    const projectsContext = useContext(ProjectContext);
+    const {project} = projectsContext;
+    if(!project) return <h2>Selecciona un proyecto</h2>;
+    const [currentProject] = project;
 
     const tasks = [
         {
@@ -24,7 +29,7 @@ function ListTasks(props) {
     ]
     return (
         <Fragment>
-            <h2>Proyecto: [Añadir nombre] </h2>
+            <h2>{currentProject.name}</h2>
             <ul className="listado-tareas">
                 {tasks.length === 0 ?
                     (<li className="tarea"><p>No hay tareas</p></li>)
