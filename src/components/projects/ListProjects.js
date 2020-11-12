@@ -9,7 +9,7 @@ function ListProjects({props}) {
     useEffect(() =>{
         getProjects();
     },[]);
-    if(projects.length === 0 ) return null;
+    if(projects.length === 0 ) return <p> No se han encontrado proyectos</p>;
 
     return (
         <ul className="listado-proyectos">
