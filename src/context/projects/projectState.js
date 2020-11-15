@@ -10,7 +10,7 @@ import {
     VALIDATE_FORM,
     CURRENT_PROJECT,
     DELETE_PROJECT
-} from "../../types";
+} from "../../types/projectIndex";
 
 const ProjectState = props =>{
     const projects = [

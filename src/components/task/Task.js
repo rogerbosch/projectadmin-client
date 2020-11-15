@@ -1,6 +1,20 @@
 import React from 'react';
+import TaskContext from "../../context/tasks/taskContext";
+import {useContext} from "react";
 
 function Task({task}) {
+
+    const taskContext = useContext(TaskContext);
+    const {deleteTask,getTasksProject, updateTaskState} = taskContext;
+
+    const deleteElement= task =>{
+        deleteTask(task.id);
+        getTasksProject(task.projectId);
+    };
+    const updateState = task =>{
+        task.state = !task.state;
+        updateTaskState(task);
+    };
     return (
         <li className="tarea sombra">
             <p> { task.name }</p>
@@ -10,21 +24,23 @@ function Task({task}) {
                         <button
                             type="button"
                              className="completo"
-                        >Completo</button>
+                            onClick={()=> updateState(task)}>Completo</button>
                     ):
                     (
                         <button
                             type="button"
                             className="incompleto"
-                        >Incompleto</button>
+                            onClick={()=> updateState(task)}>Incompleto</button>
                     )}
             </div>
             <div className="acciones">
                 <button
                     type="button"
-                    className="btn btn-primario"> Editar </button>
+                    className="btn btn-primario"
+                    > Editar </button>
                 <button
                     type="button"
+                    onClick={()=>deleteElement(task)}
                     className="btn btn-secundario"> Eliminar </button>
             </div>
         </li>
