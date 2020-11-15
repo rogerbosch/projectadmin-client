@@ -4,7 +4,7 @@ import TaskReducer from './taskReducer';
 import {
     ADD_TASK_PROJECT,
     DELETE_TASK,
-    GET_TASKS_PROJECT,
+    GET_TASKS_PROJECT, SELECT_UPDATE_TASK, UPDATE_TASK,
     UPDATE_TASK_STATUS,
     VALIDATE_FORM
 } from "../../types/taskIndex";
@@ -62,6 +62,7 @@ const TaskState = props => {
             state: true,
             projectId: 2
         }],
+        taskToEdit: null,
         tasksProject: null,
         taskError:false
     };
@@ -99,17 +100,32 @@ const TaskState = props => {
            payload: task
         });
     };
+    const selectUpdateTask = task =>{
+        dispatch({
+            type: SELECT_UPDATE_TASK,
+            payload:task
+        })
+    };
+    const updateTask = task =>{
+        dispatch({
+            type: UPDATE_TASK,
+            payload:task
+        })
+    };
     return (
         <TaskContext.Provider
             value ={{
                 tasks: state.tasks,
                 tasksProject: state.tasksProject,
                 taskError:state.taskError,
+                taskToEdit:state.taskToEdit,
                 getTasksProject:getTasksProject,
                 addTaskProject:addTaskProject,
                 validateTask:validateTask,
                 deleteTask:deleteTask,
-                updateTaskState:updateTaskState
+                updateTaskState:updateTaskState,
+                selectUpdateTask:selectUpdateTask,
+                updateTask:updateTask
             }}>
             {props.children}
         </TaskContext.Provider>

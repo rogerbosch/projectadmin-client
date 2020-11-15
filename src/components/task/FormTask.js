@@ -1,5 +1,5 @@
 import React from 'react';
-import {useContext, useState} from "react";
+import {useContext, useState,useEffect} from "react";
 import ProjectContext from "../../context/projects/projectContext";
 import TaskContext from "../../context/tasks/taskContext";
 
@@ -10,15 +10,25 @@ function FormTask(props) {
     const {project} = projectContext;
 
     const taskContext = useContext(TaskContext);
-    const {taskError, getTasksProject ,addTaskProject,validateTask} = taskContext;
+    const {taskError,taskToEdit, getTasksProject ,addTaskProject,validateTask,updateTask} = taskContext;
 
     const [task, setTask] = useState({
         name:''
-    })
+    });
+    useEffect(()=>{
+        if(taskToEdit !== null){
+            setTask(taskToEdit);
+        }else{
+            setTask({
+                name:''
+            });
+        }
+    }, [taskToEdit]);
 
     if(!project) return null;
 
     const [currProject] = project;
+
 
     const handleChange = e => {
         setTask({
@@ -32,21 +42,18 @@ function FormTask(props) {
             validateTask();
             return;
         }
-        /*
-        setTask({
-            ...task,
-            projectId:currProject.id,
-            state: false
-        });
-        */
-
-        task.projectId = currProject.id;
-        task.state = false;
-        addTaskProject(task);
-
+        if(taskToEdit === null) {
+            task.projectId = currProject.id;
+            task.state = false;
+            addTaskProject(task);
+        }else{
+            updateTask(task);
+        }
         getTasksProject(currProject.id);
         setTask({name: ''});
     };
+
+
 
     return (
         <div className="formulario">
@@ -63,7 +70,7 @@ function FormTask(props) {
                 <input
                     type="submit"
                     className="btn btn-primario btn-block"
-                    value="Añadir tarea"
+                    value={taskToEdit ? "Editar tarea" : "Añadir tarea"}
                 />
             </form>
 

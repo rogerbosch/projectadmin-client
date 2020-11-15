@@ -5,7 +5,7 @@ import {useContext} from "react";
 function Task({task}) {
 
     const taskContext = useContext(TaskContext);
-    const {deleteTask,getTasksProject, updateTaskState} = taskContext;
+    const {deleteTask,getTasksProject, updateTaskState,selectUpdateTask} = taskContext;
 
     const deleteElement= task =>{
         deleteTask(task.id);
@@ -14,6 +14,9 @@ function Task({task}) {
     const updateState = task =>{
         task.state = !task.state;
         updateTaskState(task);
+    };
+    const editTask = task =>{
+        selectUpdateTask(task);
     };
     return (
         <li className="tarea sombra">
@@ -37,7 +40,7 @@ function Task({task}) {
                 <button
                     type="button"
                     className="btn btn-primario"
-                    > Editar </button>
+                    onClick={()=>editTask(task)}> Editar </button>
                 <button
                     type="button"
                     onClick={()=>deleteElement(task)}
